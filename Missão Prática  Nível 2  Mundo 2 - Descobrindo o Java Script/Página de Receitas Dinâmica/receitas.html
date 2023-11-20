@@ -1,0 +1,109 @@
+<!-- Estrutura HTML com estilos do Bootstrap -->
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo de Receitas</title>
+  <!-- Incluir estilos do Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Define área principal como container-fluid com bg-warning */
+    .main-area {
+      background-color: #ffc107; /* Cor bg-warning */
+    }
+
+    /* Define estilos para pnlCatalogo */
+    .pnlCatalogo {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        height: 100vh;
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    .card {
+        border-radius: 20px;
+    }
+
+    .card-img-top {
+        border-radius: 20px 20px 0 0;
+    }
+
+
+  </style>
+</head>
+
+<body onload="preencheCatalogo()">
+  <!-- Contêiner principal -->
+  <div class="container-fluid main-area">
+    <!-- Painel para apresentação das receitas -->
+    <div id="pnlCatalogo" class="pnlCatalogo">
+      <!-- As receitas serão inseridas aqui -->
+    </div>
+  </div>
+
+  <!-- Incluir script do Bootstrap -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Dados das receitas em formato JSON
+    const recipes = [
+      {
+        titulo: "Arroz de Couve-Flor",
+        imagem: "img/arroz.png",
+        preparo: " Em um processador, coloque 700 gramas de couve-flor limpa separada em buquês e pulse até ficar com aparência de grãos de arroz. Em uma panela em fogo médio coloque meia colher de sopa de azeite e refogue meia colher de sopa de alho picado e meia xícara de chá de cebola picada por aproximadamente 2 minutos. Acrescente a couve-flor processada, três quartos de xícara de chá de água fervente e sal a gosto. Tampe a panela, abaixe o fogo e deixe cozinhar por 10 minutos ou até a água secar. Sirva em seguida.",
+        ingredientes: ["700 gramas de couve-flor limpa separada em buquês","Meia colher de sopa de azeite","Meia colher de sopa de alho picado","Meia xícara de chá de cebola picada", "Três quartos de xícara de chá ou 180 mililitros de água fervente", "Sal a gosto"]
+      },
+      {
+        titulo: "Bolo de café",
+        imagem: "img/bolo-de-cafe.png",
+        preparo: "Na batedeira, bata o açúcar, as gemas e o café coado. Adicione o chocolate em pó, a farinha de trigo com fermento e mexa bem. Em outra tigela, bata as claras até o ponto de neve e junte à mistura delicadamente. Despeje a massa em uma forma untada com margarina e farinha de trigo. Leve ao forno preaquecido a 180 graus Celsius por 50 minutos.",
+        ingredientes: ["4 xícaras de chá de farinha de trigo com fermento", "3 xícaras de chá de açúcar", "2 xícaras de chá de café coado","1 xícara de chá de chocolate em pó","4 ovos"]
+      },
+      {
+        titulo: "Coxinha de Morango",
+        imagem: "img/coxinha-brigadeiro.png",
+        preparo: "Em uma panela, coloque o leite condensado, o chocolate meio amargo e a manteiga.Misture bem em fogo baixo até desgrudar do fundo da panela.Adicione o creme de leite e mexa por mais três minutos. Coloque o brigadeiro em um prato e espere esfriar completamente.Selecione um morango grande e tire o cabinho verde. Abra com as mãos uma colher de sopa de brigadeiro, coloque o morango com a ponta virada para cima e enrole em formato de coxinha. Passe no granulado e aproveite.",
+        ingredientes: ["1 lata e 1/2 de leite condensado", "100 grama(s) de chocolate meio amargo", "1 colher(es) de sopa de manteiga","2 colher(es) de sopa de creme de leite","Morango","Granulado a gosto"]
+      }
+      // Adicione mais objetos de receita conforme necessário
+    ];
+
+    // Função para gerar lista de ingredientes em HTML
+    function getListaIngredientes(receita) {
+      // Usar map e reduce para criar a lista
+      const lista = `<ul>${receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).reduce((prev, current) => prev + current, '')}</ul>`;
+      return lista;
+    }
+
+    // Função para gerar o card da receita
+    function getCard(receita) {
+      // Usar template literals para conteúdo dinâmico
+      const card = `
+        <div class="card" style="width: 33%;">
+          <img src="${receita.imagem}" class="card-img-top" alt="Imagem da Receita">
+          <div class="card-body">
+            <h5 class="card-title">${receita.titulo}</h5>
+            <div class="card-text">
+              ${getListaIngredientes(receita)}
+              <hr>
+              ${receita.preparo}
+            </div>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Função para popular as receitas no pnlCatalogo
+    function preencheCatalogo() {
+      const pnlCatalogo = document.getElementById('pnlCatalogo');
+      // Gerar HTML para os painéis das receitas
+      const recipesHTML = recipes.map(recipe => getCard(recipe)).reduce((prev, current) => prev + current, '');
+      pnlCatalogo.innerHTML = recipesHTML;
+    }
+  </script>
+</body>
+
+</html>
